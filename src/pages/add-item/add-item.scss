@@ -1,0 +1,21 @@
+page-add-item {
+    ion-input{
+        border: 1px solid;
+        border-radius: 6px;
+        border-color: #cccccc;
+        padding-left: 16px;
+        padding-right: 8px; 
+    } 
+
+    ion-select{
+        border: 1px solid;
+        border-radius: 6px;
+        border-color: #cccccc; 
+    } 
+
+    .item-inner {
+        border-bottom-color: transparent !important;
+        box-shadow: none !important;
+        }
+
+}

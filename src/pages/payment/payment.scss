@@ -1,0 +1,45 @@
+page-payment {
+    
+    .button-payment{ 
+        margin: 0px;
+        height: 40px;
+        border-color: #dcdcdd;
+        border-radius: 1px;
+    }
+ 
+    .ion-row{
+        border: 1px solid;
+        border-color: #dcdcdd;
+        vertical-align: middle;
+        height: 40px; 
+        margin-top: 8px;
+    }
+
+    .ion-col{
+        border-right: 1px solid;
+        border-right-color: #dcdcdd;
+        padding: 0px;
+        margin: 0px;
+        background-color: #fdf8d5; 
+    }
+
+    .ion-col-btn{
+        padding: 0px; 
+        margin-top: 8px;
+    }
+
+    .ion-input{
+        height: 30px;
+        padding: 0px;
+        margin-bottom: 0px;
+        margin-left: 8px;
+        margin-right: 0px;
+        margin-top: 0xp;
+    }
+ 
+    .ion-icon {
+        zoom: 2.0;
+        vertical-align: middle;
+        margin-right: 1px;
+    }
+}

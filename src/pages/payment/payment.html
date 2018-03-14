@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>ชำระเงิน: {{sumPrice | currency:'฿':'code'}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form #addForm="ngForm">
+    <ion-row class="ion-row" *ngIf="isShowTypeCash">
+      <ion-col col-6 text-center class="ion-col">
+        <ion-icon item-start name="ios-cash-outline" color="dark" class="ion-icon"></ion-icon>
+        <strong>Cash</strong>
+      </ion-col>
+      <ion-col col-6 text-center no-padding no-margin>
+        <ion-input class="ion-input" type="text" name="cashAmount" [(ngModel)]="cashAmount" (keyup)="convert($event)"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="!isShowTypeCash">
+      <ion-col col-12 class="ion-col-btn">
+        <button class="button-payment" ion-button block outline color="dark" id="cash" (click)="clickSelectType($event)"><strong>Cash</strong></button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-row" *ngIf="!isShowTypeCash">
+      <ion-col col-6 text-center class="ion-col">
+        <ion-icon item-start name="ios-card" color="dark" class="ion-icon"></ion-icon>
+        <strong>Card</strong>
+      </ion-col>
+      <ion-col col-6 text-center no-padding no-margin>
+        <ion-input class="ion-input" type="text" name="cardAmount" [(ngModel)]="cardAmount" (keyup)="convert($event)"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="isShowTypeCash">
+      <ion-col col-12 class="ion-col-btn">
+        <button class="button-payment" ion-button block outline color="dark" id="card" (click)="clickSelectType($event)"><strong>Card</strong></button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar style="padding-left: 8px; padding-right: 8px;">
+    <button ion-button block (click)="payment()" [disabled]="!isPayment">
+      <ion-icon name="logo-usd"></ion-icon><strong style="margin: 0 0 2px 8px;">Payment</strong></button>
+  </ion-toolbar>
+</ion-footer>

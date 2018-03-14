@@ -1,0 +1,92 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Details</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="dark" *ngIf="type == 'add'" (click)="uploadImage()">
+         Create
+        <ion-icon name="ios-checkmark-circle-outline" color="dark"></ion-icon>
+      </button>
+      <button ion-button icon-only color="dark" *ngIf="type == 'edit'" (click)="updateProduct()">
+         Save
+        <ion-icon name="ios-checkmark-circle-outline" color="dark"></ion-icon>
+      </button>
+      <ion-buttons end>
+      </ion-buttons>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+
+<ion-content>
+
+  <form #addForm="ngForm">
+    <ion-card>
+      <ion-list style="padding-top: 16px; padding-bottom: 16px;" no-lines>
+        <ion-item>
+          <ion-label stacked>
+            <h2>Product Name</h2>
+          </ion-label>
+          <ion-input name="name" [(ngModel)]="product.name" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>
+            <h2>Product Category</h2>
+          </ion-label>
+          <ion-select padding-left name="category" [(ngModel)]="product.category" interface="popover">
+            <ion-option [value]="item._id" *ngFor="let item of categories">{{item.category_name}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>
+            <h2>Quantity</h2>
+          </ion-label>
+          <ion-input name="qty" [(ngModel)]="product.stock" type="number"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>
+            <h2>Product Price</h2>
+          </ion-label>
+          <ion-input name="price" [(ngModel)]="product.price" type="number"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label stacked>
+            <h2>Unit</h2>
+          </ion-label>
+          <ion-select padding-left name="unit" [(ngModel)]="product.unit" interface="popover">
+            <ion-option [value]="item._id" *ngFor="let item of units">{{item.name_en}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item margin-top no-margin-bottom>
+          <button ion-button outline large block color="dark" style="height: 40px; border-color: #cccccc;" (click)="presentActionSheet()">
+            <ion-icon name="md-images" color="dark"></ion-icon>
+            <h3 style="margin-left: 8px;"> Add Photo</h3>
+          </button>
+        </ion-item>
+
+        <ion-item text-center style="text-align: center;">
+          <img text-center [src]="pathForImage(lastImage)" style=" margin:0 auto;  width: 50%; height: 50%;" *ngIf="lastImage.length > 0 && type == 'add'" />
+          <img text-center src="http://192.168.200.31:8081/images/{{product.image}} " style=" margin:0 auto;  width: 30%; height: 30%;" *ngIf="type == 'edit'"/>
+
+
+        </ion-item>
+
+      </ion-list>
+    </ion-card>
+  </form>
+
+  <ion-fab right bottom style="margin: 8px;" *ngIf="type == 'edit'">
+    <button ion-fab color="danger" (click)="deleteProduct()">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

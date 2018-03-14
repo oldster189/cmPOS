@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <ion-buttons start>
+      <button ion-button icon-only (click)="backPage()">  
+        <ion-icon name="arrow-back" color="dark" ></ion-icon> 
+      </button>
+    </ion-buttons> -->
+    <ion-title>
+      {{sumPrice | currency:'฿':'code'}}
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="clearProducts()" [disabled]="!isEmptyOrder">
+        <ion-icon name="{{productsSelect.length == 0 ? 'ios-trash-outline' : 'ios-trash'}}" color="dark"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list inset style="padding: 0px; margin-right: 0px;">
+    <ion-item text-wrap *ngFor="let item of productsSelect" style="padding: 0px; margin: 0px;">
+      <ion-grid no-padding no-magin>
+        <ion-row no-padding no-magin>
+          <ion-col col-8>
+            <h3>{{item.name}}
+            </h3>
+            <h4 class="h4-gray">{{item.price | currency:'฿':'code'}}</h4>
+          </ion-col>
+          <ion-col text-center col-4>
+            <button ion-button small icon-only clear color="dark" (click)="removeQty(item)">
+              <ion-icon name="md-remove"></ion-icon>
+            </button>
+            <button ion-button small icon-only clear color="dark" disabled>
+              {{item.qty}}
+            </button>
+            <button ion-button small icon-only clear color="dark" (click)="addQty(item)">
+              <ion-icon name="md-add"></ion-icon>
+            </button>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar style="padding-left: 8px; padding-right: 8px;">
+    <button ion-button block (click)="checkout()" [disabled]="!isEmptyOrder"><strong>Checkout</strong></button>
+  </ion-toolbar>
+</ion-footer>

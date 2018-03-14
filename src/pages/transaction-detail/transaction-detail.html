@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title></ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-right color="dark">
+        Refund
+        <ion-icon large name="ios-undo-outline" color="dark"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+  <ion-card>
+    <ion-list no-lines style="margin-top: 8px; margin-bottom: 8px;">
+      <ion-item detail-none>
+        <ion-icon large name="ios-paper-outline" item-start></ion-icon>
+        <ion-note class="ion-note-header" style="font-size: 18px;" item-start>#{{("00000"+order.order_id).slice(-6)}}</ion-note>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <h2>
+          <strong>Cashier:</strong> Owner</h2>
+      </ion-item>
+    </ion-list>
+
+    <ion-list no-lines style="padding-top: 8px; padding-bottom: 8px; ">
+      <ion-item text-wrap *ngFor="let item of orderDetails">
+        <h3>{{item.name}}</h3>
+        <p>{{item.qty}} x {{item.price | currency:' '}}</p>
+        <ion-note item-end>{{item.price * item.qty | currency:'฿':'code'}}</ion-note>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item style="height: 40px;">
+        <h2 item-start>
+          <strong>Sub Total</strong>
+        </h2>
+        <h2 item-end>
+          <strong> {{order.sub_total | currency:'฿':'code'}}</strong>
+        </h2>
+      </ion-item>
+      <ion-item style="height: 40px;">
+        <h2 item-start>
+          <strong>Total</strong>
+        </h2>
+        <h2 item-end>
+          <strong>{{order.sub_total | currency:'฿':'code'}}</strong>
+        </h2>
+      </ion-item>
+      <ion-item>
+        <h2 item-start>
+          Cash
+        </h2>
+        <h2 item-end>
+          {{order.paid | currency:'฿':'code'}}
+        </h2>
+      </ion-item>
+      <ion-item>
+        <h2 item-start>
+          Change
+        </h2>
+        <h2 item-end>
+          {{order.paid - order.sub_total | currency:'฿':'code'}}
+        </h2>
+      </ion-item>
+    </ion-list>
+
+    <ion-list no-lines style="padding-top: 4px; ">
+      <ion-item>
+        <ion-note item-start>{{order.timestamp | date:'dd/MM/yyyy HH:mm:ss'}}</ion-note>
+        <ion-note item-end>#{{("00000"+order.order_id).slice(-6)}}</ion-note>
+      </ion-item>
+    </ion-list>
+
+  </ion-card>
+</ion-content>

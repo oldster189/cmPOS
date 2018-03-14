@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon color="dark" name="menu"></ion-icon>
+    </button>
+    <ion-title>รายการ</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-card>
+    <ion-list inset style="padding:0px; margin:0px;">
+      <button detail-none ion-item style="height: 70px;" [navPush]="itemsPage">
+        <ion-icon name="ai-list" item-start></ion-icon>
+        รายการสินค้า
+      </button>
+      <button detail-none ion-item style="height: 70px;" [navPush]="categoriesPage">
+        <ion-icon name="ai-books" item-start></ion-icon>
+        หมวดหมู่
+      </button>
+      <button detail-none ion-item style="height: 70px;" [navPush]="discountsPage">
+        <ion-icon name="ai-price-tag" item-start></ion-icon>
+        ส่วนลด
+      </button>
+    </ion-list>
+  </ion-card>
+
+</ion-content>
