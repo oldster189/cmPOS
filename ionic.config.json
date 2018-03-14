@@ -1,6 +1,8 @@
 {
   "name": "cmPOS",
-  "app_id": "",
+  "app_id": "b60f4125",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }
