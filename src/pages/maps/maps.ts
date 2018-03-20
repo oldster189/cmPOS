@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  GoogleMapOptions
-} from '@ionic-native/google-maps';
 import { Location } from './../../models/location';
 import { Geolocation, GeolocationOptions, Geoposition, PositionError } from '@ionic-native/geolocation';
 
@@ -23,7 +17,6 @@ import { Geolocation, GeolocationOptions, Geoposition, PositionError } from '@io
 })
 export class MapsPage {
 
-  map: GoogleMap;
 
   options: GeolocationOptions;
   currentPos: Geoposition;

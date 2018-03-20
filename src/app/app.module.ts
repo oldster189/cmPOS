@@ -31,7 +31,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {SupportPage} from "../pages/support/support";
 import {MapsPage} from "../pages/maps/maps";
 import { Geolocation } from '@ionic-native/geolocation';
-import { GoogleMaps} from "@ionic-native/google-maps";
 import { AgmCoreModule } from '@agm/core';
 import { CallNumber } from '@ionic-native/call-number';
 
@@ -94,7 +93,6 @@ import { CallNumber } from '@ionic-native/call-number';
     File,
     InAppBrowser,
     Geolocation,
-    GoogleMaps,
     CallNumber
   ]
 })

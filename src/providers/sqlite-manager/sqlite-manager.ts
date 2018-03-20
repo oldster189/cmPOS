@@ -181,7 +181,7 @@ export class SqliteManagerProvider {
       name: 'cmpos.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('CREATE TABLE IF NOT EXISTS  `Orders` ( `order_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `discount` REAL, `tax_percent` REAL, `sub_total` REAL, `paid` REAL, `status` TEXT, `payment_type` TEXT, `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP)', {})
+      db.executeSql('CREATE TABLE IF NOT EXISTS  `Orders` ( `order_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `discount` REAL, `tax_percent` REAL, `sub_total` REAL, `paid` REAL, `status` TEXT, `payment_type` TEXT, `timestamp` TEXT)', {})
         .then(res => {
           this.toast.show('Create Table Order Success', '3000', 'bottom').subscribe(
             toast => {

@@ -6,40 +6,40 @@
 
 
 <ion-content>
-    <ion-grid no-padding>
-        <ion-row *ngIf="!isShowSearch">
-          <ion-col col-10>
-            <ion-item no-lines (click)="presentActionSheet()" class="show-list">
-              <strong> {{titleProductFilter}} </strong>
-              <ion-icon item-end icon-left name="ios-arrow-down"></ion-icon>
-            </ion-item>
-          </ion-col>
-          <ion-col col-2>
-            <ion-item no-lines class="search">
-              <button ion-button icon-only clear (click)="onSearchShow()">
-                <ion-icon name="search" color="dark"></ion-icon>
-              </button>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf="isShowSearch">
-          <ion-searchbar #mainSearchbar (ionInput)="searchItems($event)"  (ionCancel)="onSearchCancel()" [animated]="true" [showCancelButton]="true" style="height: 50px;"></ion-searchbar>
-        </ion-row>
-      </ion-grid>
-
-      <ion-list inset style="padding-left: 0px; margin-left: 0px; margin-right: 0px;">
-          <button ion-item detail-none text-wrap *ngFor="let item of productsFilter" (click)="editProduct(item)" style="padding-left: 8px; margin-left: 0px;">
-            <ion-avatar item-left>
-              <img src="http://192.168.200.31:8081/images/{{item.image}}">
-            </ion-avatar>
-            <h3>{{item.name}}</h3>
-            <p>Price: {{item.price | currency:'฿':'code'}}, Qty: {{item.stock}}</p>
+  <ion-grid no-padding>
+    <ion-row *ngIf="!isShowSearch">
+      <ion-col col-10>
+        <ion-item no-lines (click)="presentActionSheet()" class="show-list">
+          <strong> {{titleProductFilter}} </strong>
+          <ion-icon item-end icon-left name="ios-arrow-down"></ion-icon>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <ion-item no-lines class="search">
+          <button ion-button icon-only clear (click)="onSearchShow()">
+            <ion-icon name="search" color="dark"></ion-icon>
           </button>
-        </ion-list>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="isShowSearch">
+      <ion-searchbar #mainSearchbar (ionInput)="searchItems($event)"  (ionCancel)="onSearchCancel()" [animated]="true" [showCancelButton]="true" style="height: 50px;"></ion-searchbar>
+    </ion-row>
+  </ion-grid>
 
-        <ion-fab right bottom style="margin: 8px;" >
-            <button ion-fab color="secondary" (click)="createItem()">
-              <ion-icon name="md-add"></ion-icon>
-            </button>
-          </ion-fab>
+  <ion-list inset style="padding-left: 0px; margin-left: 0px; margin-right: 0px;">
+    <button ion-item detail-none text-wrap *ngFor="let item of productsFilter" (click)="editProduct(item)" style="padding-left: 8px; margin-left: 0px;">
+      <ion-avatar item-left>
+        <img src="http://192.168.200.31:8081/images/{{item.image}}">
+      </ion-avatar>
+      <h3>{{item.name}}</h3>
+      <p>Price: {{item.price | currency:'฿':'code'}}, Qty: {{item.stock}}</p>
+    </button>
+  </ion-list>
+
+  <ion-fab right bottom style="margin: 8px;" >
+    <button ion-fab color="secondary" (click)="createItem()">
+      <ion-icon name="md-add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
