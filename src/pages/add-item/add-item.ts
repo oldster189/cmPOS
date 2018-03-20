@@ -248,7 +248,7 @@ export class AddItemPage {
     const fileTransfer: FileTransferObject = this.transfer.create();
 
     this.loading = this.loadingCtrl.create({
-      content: 'loading...',
+      content: 'Loading...',
     });
     this.loading.present();
 
@@ -260,8 +260,9 @@ export class AddItemPage {
 
         // add item
         this.server.addProduct(this.product).subscribe(res => {
+
+          this.loading.dismissAll()
           if (res.success === 1){
-            this.loading.dismissAll()
             this.navCtrl.pop();
             this.toast.show("Add Item Success!!", '2000', 'bottom').subscribe(toast => {
 
@@ -276,7 +277,12 @@ export class AddItemPage {
 
 
 
+      }else{
+        this.toast.show("Upload Failure", '5000', 'bottom').subscribe(toast => {
+
+        });
       }
+
     }, err => {
       this.loading.dismissAll()
       this.presentToast('Error while uploading file.');

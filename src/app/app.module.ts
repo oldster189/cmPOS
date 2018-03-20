@@ -29,7 +29,11 @@ import { FilePath } from '@ionic-native/file-path';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {SupportPage} from "../pages/support/support";
-
+import {MapsPage} from "../pages/maps/maps";
+import { Geolocation } from '@ionic-native/geolocation';
+import { GoogleMaps} from "@ionic-native/google-maps";
+import { AgmCoreModule } from '@agm/core';
+import { CallNumber } from '@ionic-native/call-number';
 
 @NgModule({
   declarations: [
@@ -46,12 +50,16 @@ import {SupportPage} from "../pages/support/support";
     ReportPage,
     TransactionPage,
     TransactionDetailPage,
-    SupportPage
+    SupportPage,
+    MapsPage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBg_NN-UuZJD5hyZMoceLZ69BnuJcMAQ_c'
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -67,7 +75,8 @@ import {SupportPage} from "../pages/support/support";
     ReportPage,
     TransactionPage,
     TransactionDetailPage,
-    SupportPage
+    SupportPage,
+    MapsPage
   ],
   providers: [
     StatusBar,
@@ -83,7 +92,10 @@ import {SupportPage} from "../pages/support/support";
     FilePath,
     FileTransferObject,
     File,
-    InAppBrowser
+    InAppBrowser,
+    Geolocation,
+    GoogleMaps,
+    CallNumber
   ]
 })
 export class AppModule {}

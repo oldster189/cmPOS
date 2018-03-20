@@ -56,11 +56,14 @@ export class PaymentPage {
     }).then((db: SQLiteObject) => {
       this.sqliteManager.createTableOrder();
       this.sqliteManager.createTableOrderDetail();
+
+
+
       db.executeSql('INSERT INTO Orders(discount, tax_percent, sub_total, paid,status, payment_type, timestamp) VALUES(?,?,?,?,?,?,?)', [0, 0.07, this.sumPrice, paid, "success", paymentType, Date.now()])
         .then(res => {
           this.toast.show('Payment Success', '2000', 'bottom').subscribe(toast => {
           });
-          console.log(res);
+
           this.productsSelect.forEach(element => {
             db.executeSql('INSERT INTO OrderDetail(category_id, image, name, stock, qty, price, category_name, order_id)  VALUES(?,?,?,?,?,?,?,?)', [element._id, element.image, element.name, element.stock, element.qty, element.price, element.category_name, res.insertId])
               .then(res => {
@@ -80,12 +83,12 @@ export class PaymentPage {
           });
           console.log(e);
         });
-
     }).catch(e => {
       this.toast.show(e, '2000', 'bottom').subscribe(toast => {
       });
       console.log(e)
     });
+
   }
 
   clickSelectType(event: any) {

@@ -13,6 +13,25 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content no-padding>
+
+  <ion-segment  padding [(ngModel)]="typeMap">
+    <ion-segment-button value="roadmap">
+      Normal
+    </ion-segment-button>
+    <ion-segment-button value="satellite">
+      Satellite
+    </ion-segment-button>
+    <ion-segment-button value="hybrid">
+      Hybrid
+    </ion-segment-button>
+  </ion-segment>
+
+
+
+    <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="16" [mapTypeId]="typeMap"  >
+        <agm-marker [latitude]="location.lat" [longitude]="location.lng" >
+        </agm-marker>
+      </agm-map>
 
 </ion-content>

@@ -13,6 +13,7 @@ export class TransactionDetailPage {
 
   order: Orders;
   orderDetails: OrderDetail[] = [];
+  today = Date.now();
 
   constructor(
     public navCtrl: NavController,
@@ -22,7 +23,7 @@ export class TransactionDetailPage {
     this.order = this.navParams.get('data');
   }
 
-  ionViewDidLoad() { 
+  ionViewDidLoad() {
     this.getTransactionDetail();
   }
 

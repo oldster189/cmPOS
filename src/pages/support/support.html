@@ -16,6 +16,21 @@
 </ion-header>
 
 
-<ion-content padding>
-  <button ion-button block outline (click)="openWithInAppBrowser()">openWithInAppBrowser</button>
+<ion-content no-padding>
+  <ion-list>
+    <button ion-item (click)="openWithInAppBrowser()">
+      <ion-icon name="globe" item-start></ion-icon>
+      <h3>Troubleshoot</h3>
+      <p>codemobiles.com/biz/contact</p>
+    </button>
+    <button ion-item (click)="openCallNumber()">
+      <ion-icon name="call" item-start></ion-icon>
+      <h3>Give us a Call</h3>
+      <p>+(66) 2-6898943</p>
+    </button>
+
+    <button ion-item (click)="openMaps()">
+      <ion-icon name="md-map" item-start></ion-icon>
+      Maps</button>
+  </ion-list>
 </ion-content>
