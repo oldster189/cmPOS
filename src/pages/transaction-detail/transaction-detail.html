@@ -3,9 +3,9 @@
     <ion-title></ion-title>
 
     <ion-buttons end>
-      <button ion-button icon-right color="dark">
+      <button ion-button icon-right color="darkBlue">
         Refund
-        <ion-icon large name="ios-undo-outline" color="dark"></ion-icon>
+        <ion-icon large name="ios-undo-outline" color="darkBlue"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -16,7 +16,7 @@
   <ion-card>
     <ion-list no-lines style="margin-top: 8px; margin-bottom: 8px;">
       <ion-item detail-none>
-        <ion-icon large name="ios-paper-outline" item-start></ion-icon>
+        <ion-icon large name="ios-paper-outline" color="darkBlue" item-start></ion-icon>
         <ion-note class="ion-note-header" style="font-size: 18px;" item-start>#{{("00000"+order.order_id).slice(-6)}}</ion-note>
       </ion-item>
     </ion-list>
@@ -73,7 +73,8 @@
 
     <ion-list no-lines style="padding-top: 4px; ">
       <ion-item>
-        <ion-note item-start>{{order.timestamp | date:'dd/MM/yyyy HH:mm:ss'}} </ion-note>
+
+          <ion-note item-start>{{order.timestamp | amParse:'YYYY/MM/DD hh:mm:ss' | amDateFormat:'DD/MM/YYYY HH:mm:ss'}} </ion-note>
         <ion-note item-end>#{{("00000"+order.order_id).slice(-6)}}</ion-note>
       </ion-item>
     </ion-list>

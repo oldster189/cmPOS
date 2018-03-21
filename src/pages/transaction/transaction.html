@@ -2,7 +2,7 @@
 
   <ion-navbar>
     <button ion-button menuToggle>
-      <ion-icon color="dark" name="menu"></ion-icon>
+      <ion-icon color="darkBlue" name="menu"></ion-icon>
     </button>
     <ion-title>transaction</ion-title>
   </ion-navbar>
@@ -17,10 +17,10 @@
         <ion-icon item-end icon-left name="ios-arrow-down"></ion-icon>
       </ion-item-divider>
       <button ion-item detail-none *ngFor="let item of orders" (click)="goToTransactionDetail(item)">
-        <ion-icon large name="ios-paper-outline" item-start></ion-icon>
+        <ion-icon large name="ios-paper-outline"  color="darkBlue" item-start></ion-icon>
         <h3>#{{("00000"+item.order_id).slice(-6)}}</h3>
         <p>{{item.payment_type}}</p>
-        <ion-note item-end>{{item.timestamp | date:'shortTime'}}</ion-note>
+        <ion-note item-end>{{item.timestamp | amParse:'YYYY/MM/DD hh:mm:ss' | amDateFormat:'hh:mm A'}}</ion-note>
       </button>
     </ion-item-group>
   </ion-list>

@@ -3,10 +3,11 @@ import { ProductData } from './../../models/product';
 import { CategoryData } from './../../models/Categories';
 import { RestProvider } from './../../providers/rest/rest';
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Searchbar } from 'ionic-angular';
+import {NavController, Platform, Searchbar} from 'ionic-angular';
 import { ActionSheetController } from 'ionic-angular'
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Toast } from '@ionic-native/toast';
+import {SqliteManagerProvider} from "../../providers/sqlite-manager/sqlite-manager";
 
 
 @Component({
@@ -24,13 +25,13 @@ export class HomePage {
   amountItem = "No Sale";
   titleProductFilter = "All items";
   isSearch = false;
-
+dates = '2018-03-13 16:51:00';
   constructor(
     public navCtrl: NavController,
     private server: RestProvider,
     public actionSheetCtrl: ActionSheetController,
     private barcodeScanner: BarcodeScanner,
-    private toast: Toast) {
+    private toast: Toast ) {
 
   }
 

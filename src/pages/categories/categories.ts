@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {ActionSheetController, IonicPage, NavController, NavParams, Searchbar} from 'ionic-angular';
 import {RestProvider} from "../../providers/rest/rest";
 import {CategoryData} from "../../models/categories";
 
@@ -16,11 +16,15 @@ import {CategoryData} from "../../models/categories";
   templateUrl: 'categories.html',
 })
 export class CategoriesPage {
+  @ViewChild('mainSearchbar') searchBar: Searchbar;
 
   categories:CategoryData[] = [];
   categoriesFilter:CategoryData[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private rest:RestProvider) {
+  isShowSearch = false;
+  titleCategoryFilter:string = "All Items"
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private rest:RestProvider,public actionSheetCtrl: ActionSheetController,) {
   }
 
   ionViewDidLoad() {
@@ -32,6 +36,47 @@ export class CategoriesPage {
     this.rest.getCategories().subscribe(result => {
       this.categories = result.data;
     })
+  }
+
+  createButton() {
+    let buttons = [];
+
+    let btnAll = {
+      text: 'All items',
+      handler: () => {
+        this.categoriesFilter = this.categories;
+        this.titleCategoryFilter = "All items";
+      }
+    }
+    buttons.push(btnAll);
+
+    this.categories.forEach(element => {
+      let btn = {
+        text: element.category_name,
+        handler: () => {
+          this.categoriesFilter = this.categories.filter(category => category._id === element._id);
+          this.titleCategoryFilter = element.category_name;
+        }
+      }
+      buttons.push(btn);
+    });
+
+    let btnCancel = {
+      text: 'Cancel',
+      role: 'cancel',
+      handler: () => {
+
+      }
+    }
+    buttons.push(btnCancel);
+    return buttons;
+  }
+
+  presentActionSheet() {
+    let actionSheet = this.actionSheetCtrl.create({
+      buttons: this.createButton()
+    });
+    actionSheet.present();
   }
 
   editCategory(category:CategoryData){
@@ -53,13 +98,13 @@ export class CategoriesPage {
       }
     } else {
       this.isShowSearch = false;
-      this.categoriesFilter = this.products;
+      this.categoriesFilter = this.categories;
     }
   }
 
   onSearchCancel() {
     this.isShowSearch = false;
-    this.productsFilter = this.products;
+    this.categoriesFilter = this.categories;
   }
 
   onSearchShow() {
@@ -68,6 +113,7 @@ export class CategoriesPage {
       this.searchBar.setFocus();
     }, 150);
   }
+
 
 
 }

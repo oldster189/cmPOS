@@ -1,32 +1,33 @@
-import { ListsPage } from './../pages/lists/lists';
-import { TransactionPage } from './../pages/transaction/transaction';
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { HomePage } from '../pages/home/home';
-import { ReportPage } from '../pages/report/report';
+import {ListsPage} from './../pages/lists/lists';
+import {TransactionPage} from './../pages/transaction/transaction';
+import {Component, ViewChild} from '@angular/core';
+import {Nav, Platform} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {HomePage} from '../pages/home/home';
+import {ReportPage} from '../pages/report/report';
 import {SupportPage} from "../pages/support/support";
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = HomePage;
+  rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any, icon: any }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'Lists', component: ListsPage },
-      { title: 'Transaction', component: TransactionPage },
-      { title: 'Report', component: ReportPage },
-      { title: 'Support', component: SupportPage }
+      {title: 'Home', component: HomePage, icon: 'md-home'},
+      {title: 'Lists', component: ListsPage, icon: 'md-list'},
+      {title: 'Transaction', component: TransactionPage, icon: 'md-git-compare'},
+      {title: 'Report', component: ReportPage, icon: 'md-document'},
+      {title: 'Support', component: SupportPage, icon: 'ios-help-buoy'}
     ];
 
   }

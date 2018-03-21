@@ -7,12 +7,17 @@
 
     <ion-content>
         <ion-list>
-            <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+            <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)"  icon-left>
+              <ion-icon color="darkBlue" name="{{p.icon}}"></ion-icon>
                 {{p.title}}
             </button>
         </ion-list>
-    </ion-content>
 
+
+    </ion-content>
+  <ion-footer padding>
+    <img src="http://www.codemobiles.com/biz/images/codemobiles_logo.png?ref=10"/>
+  </ion-footer>
 </ion-menu>
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->

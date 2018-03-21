@@ -33,6 +33,7 @@ import {MapsPage} from "../pages/maps/maps";
 import { Geolocation } from '@ionic-native/geolocation';
 import { AgmCoreModule } from '@agm/core';
 import { CallNumber } from '@ionic-native/call-number';
+import {MomentModule} from "angular2-moment";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,9 @@ import { CallNumber } from '@ionic-native/call-number';
     IonicModule.forRoot(MyApp),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBg_NN-UuZJD5hyZMoceLZ69BnuJcMAQ_c'
-    })
+    }),
+    MomentModule
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [

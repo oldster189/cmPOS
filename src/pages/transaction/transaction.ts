@@ -1,9 +1,9 @@
-import { SqliteManagerProvider } from './../../providers/sqlite-manager/sqlite-manager';
-import { TransactionDetailPage } from './../transaction-detail/transaction-detail';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Orders } from '../../models/orders';
-import { ActionSheetController } from 'ionic-angular'
+import {SqliteManagerProvider} from './../../providers/sqlite-manager/sqlite-manager';
+import {TransactionDetailPage} from './../transaction-detail/transaction-detail';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {Orders} from '../../models/orders';
+import {ActionSheetController} from 'ionic-angular'
 
 @IonicPage()
 @Component({
@@ -13,13 +13,13 @@ import { ActionSheetController } from 'ionic-angular'
 export class TransactionPage {
   today = Date.now()
   orders: Orders[] = [];
-  titleFilter:string = "Latest";
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private sqliteManager: SqliteManagerProvider,
-  public actionSheetCtrl: ActionSheetController
-  ) {
+  titleFilter: string = "Latest";
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private sqliteManager: SqliteManagerProvider,
+              public actionSheetCtrl: ActionSheetController,
+              private platform: Platform) {
   }
 
 
@@ -27,14 +27,17 @@ export class TransactionPage {
     this.getTransaction('latest');
   }
 
-  getTransaction(type:string) {
-    this.sqliteManager.getTransaction(type).subscribe(data => {
-      this.orders = data;
+  getTransaction(type: string) {
+    this.platform.ready().then(() => {
+      this.sqliteManager.getTransaction(type).subscribe(data => {
+        this.orders = data;
+        console.log(JSON.stringify(data))
+      });
     });
   }
 
   goToTransactionDetail(order: Orders) {
-    this.navCtrl.push(TransactionDetailPage, { data: order });
+    this.navCtrl.push(TransactionDetailPage, {data: order});
   }
 
   presentActionSheet() {
@@ -46,25 +49,25 @@ export class TransactionPage {
             this.titleFilter = "Latest";
             this.getTransaction('latest');
           }
-        },{
+        }, {
           text: 'Daily',
           handler: () => {
             this.titleFilter = "Daily";
             this.getTransaction('daily');
           }
-        },{
+        }, {
           text: 'Weekly',
           handler: () => {
             this.titleFilter = "Weekly";
             this.getTransaction('weekly');
           }
-        },{
+        }, {
           text: 'Monthly',
           handler: () => {
             this.titleFilter = "Monthly";
             this.getTransaction('monthly');
           }
-        },{
+        }, {
           text: 'Yearly',
           handler: () => {
             this.titleFilter = "Yearly";

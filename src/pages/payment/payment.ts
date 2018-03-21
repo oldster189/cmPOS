@@ -1,9 +1,9 @@
-import { SqliteManagerProvider } from './../../providers/sqlite-manager/sqlite-manager';
-import { ProductData } from './../../models/product';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { SQLite, SQLiteObject } from "@ionic-native/sqlite";
-import { Toast } from '@ionic-native/toast';
+import {SqliteManagerProvider} from './../../providers/sqlite-manager/sqlite-manager';
+import {ProductData} from './../../models/product';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {SQLite, SQLiteObject} from "@ionic-native/sqlite";
+import {Toast} from '@ionic-native/toast';
 
 
 @IonicPage()
@@ -21,7 +21,17 @@ export class PaymentPage {
   cardAmount: string;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private sqlite: SQLite, private toast: Toast, private sqliteManager:SqliteManagerProvider) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private sqlite: SQLite,
+              private toast: Toast,
+              private sqliteManager: SqliteManagerProvider,
+              private plt: Platform) {
+    this.plt.ready().then((readySource) => {
+      console.log('Platform ready from', readySource);
+      this.sqliteManager.createTableOrder();
+      this.sqliteManager.createTableOrderDetail();
+    });
     this.productsSelect = this.navParams.get('data') || [];
   }
 
@@ -46,49 +56,50 @@ export class PaymentPage {
 
 
   }
+
   payment() {
     let paid = this.isShowTypeCash ? this.cashAmount : this.cardAmount;
     let paymentType = this.isShowTypeCash ? "Cash" : "Card";
     let counter: number = 0;
-    this.sqlite.create({
-      name: 'cmpos.db',
-      location: 'default'
-    }).then((db: SQLiteObject) => {
-      this.sqliteManager.createTableOrder();
-      this.sqliteManager.createTableOrderDetail();
+    this.plt.ready().then(() => {
+      this.sqlite.create({
+        name: 'cmpos.db',
+        location: 'default'
+      }).then((db: SQLiteObject) => {
+        let date = new Date();
+        let newDate = date.getFullYear() + '-' + ('00' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('00' + date.getDay().toString()).slice(-2) + ' ' + ('00' + date.getHours().toString()).slice(-2) + ':' + ('00' + date.getMinutes().toString()).slice(-2) + ':' + date.getSeconds();
 
+        db.executeSql('INSERT INTO Orders(discount, tax_percent, sub_total, paid,status, payment_type, timestamp) VALUES(?,?,?,?,?,?,?)', [0, 0.07, this.sumPrice, paid, "success", paymentType, newDate])
+          .then(res => {
+            this.toast.show(JSON.stringify(res), '2000', 'bottom').subscribe(toast => {
 
+            });
 
-      db.executeSql('INSERT INTO Orders(discount, tax_percent, sub_total, paid,status, payment_type, timestamp) VALUES(?,?,?,?,?,?,?)', [0, 0.07, this.sumPrice, paid, "success", paymentType, Date.now()])
-        .then(res => {
-          this.toast.show('Payment Success', '2000', 'bottom').subscribe(toast => {
+            this.productsSelect.forEach(element => {
+              db.executeSql('INSERT INTO OrderDetail(category_id, image, name, stock, qty, price, category_name, order_id)  VALUES(?,?,?,?,?,?,?,?)', [element._id, element.image, element.name, element.stock, element.qty, element.price, element.category_name, res.insertId])
+                .then(res => {
+                  console.log(res);
+                  counter++;
+                  if (counter == this.productsSelect.length) {
+                    this.navCtrl.popToRoot();
+                  }
+                })
+                .catch(e => {
+                  console.log(e);
+                });
+            });
+          })
+          .catch(e => {
+            this.toast.show(e, '2000', 'bottom').subscribe(toast => {
+            });
+            console.log(e);
           });
-
-          this.productsSelect.forEach(element => {
-            db.executeSql('INSERT INTO OrderDetail(category_id, image, name, stock, qty, price, category_name, order_id)  VALUES(?,?,?,?,?,?,?,?)', [element._id, element.image, element.name, element.stock, element.qty, element.price, element.category_name, res.insertId])
-              .then(res => {
-                console.log(res);
-                counter++;
-                if (counter == this.productsSelect.length) {
-                  this.navCtrl.popToRoot();
-                }
-              })
-              .catch(e => {
-                console.log(e);
-              });
-          });
-        })
-        .catch(e => {
-          this.toast.show(e, '2000', 'bottom').subscribe(toast => {
-          });
-          console.log(e);
+      }).catch(e => {
+        this.toast.show(e, '2000', 'bottom').subscribe(toast => {
         });
-    }).catch(e => {
-      this.toast.show(e, '2000', 'bottom').subscribe(toast => {
+        console.log(e)
       });
-      console.log(e)
     });
-
   }
 
   clickSelectType(event: any) {
