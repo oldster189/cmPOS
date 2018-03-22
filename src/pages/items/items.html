@@ -6,6 +6,8 @@
 
 
 <ion-content>
+
+  <!--Search Bar-->
   <ion-grid no-padding>
     <ion-row *ngIf="!isShowSearch">
       <ion-col col-10>
@@ -26,7 +28,20 @@
       <ion-searchbar #mainSearchbar (ionInput)="searchItems($event)"  (ionCancel)="onSearchCancel()" [animated]="true" [showCancelButton]="true" style="height: 50px;"></ion-searchbar>
     </ion-row>
   </ion-grid>
+  <!--Search Bar-->
 
+  <!--Pull To Refresh-->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <!--Pull To Refresh-->
+
+  <!--Content ListView-->
   <ion-list inset style="padding-left: 0px; margin-left: 0px; margin-right: 0px;">
     <button ion-item detail-none text-wrap *ngFor="let item of productsFilter" (click)="editProduct(item)" style="padding-left: 8px; margin-left: 0px;">
       <ion-avatar item-left>
@@ -36,10 +51,13 @@
       <p>Price: {{item.price | currency:'฿':'code'}}, Qty: {{item.stock}}</p>
     </button>
   </ion-list>
+  <!--Content ListView-->
 
+  <!--Fab Add Product-->
   <ion-fab right bottom style="margin: 8px;" >
     <button ion-fab color="secondary" (click)="createItem()">
       <ion-icon name="md-add"></ion-icon>
     </button>
   </ion-fab>
+  <!--Fab Add Product-->
 </ion-content>

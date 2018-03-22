@@ -55,7 +55,20 @@ export class ItemsPage {
         this.products = res.data;
         this.productsFilter = res.data;
       }
-    })
+    });
+  }
+
+  doRefresh(refresher) {
+    this.server.getProducts().subscribe((res) => {
+      if (res.success === 1) {
+        this.products = res.data;
+        this.productsFilter = res.data;
+
+        setTimeout(() => {
+          refresher.complete();
+        }, 1000);
+      }
+    }) ;
   }
 
   getCategories() {
@@ -115,6 +128,8 @@ export class ItemsPage {
         this.productsFilter = this.products.filter((item) => {
           return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
         });
+      }else{
+        this.productsFilter = this.products;
       }
     } else {
       this.isShowSearch = false;

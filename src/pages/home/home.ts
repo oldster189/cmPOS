@@ -1,14 +1,12 @@
-import { OrderPage } from './../order/order';
-import { ProductData } from './../../models/product';
-import { CategoryData } from './../../models/Categories';
-import { RestProvider } from './../../providers/rest/rest';
-import { Component, ViewChild } from '@angular/core';
-import {NavController, Platform, Searchbar} from 'ionic-angular';
-import { ActionSheetController } from 'ionic-angular'
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import { Toast } from '@ionic-native/toast';
-import {SqliteManagerProvider} from "../../providers/sqlite-manager/sqlite-manager";
-
+import {OrderPage} from './../order/order';
+import {ProductData} from './../../models/product';
+import {CategoryData} from './../../models/Categories';
+import {RestProvider} from './../../providers/rest/rest';
+import {Component, ViewChild} from '@angular/core';
+import {NavController, Searchbar} from 'ionic-angular';
+import {ActionSheetController} from 'ionic-angular'
+import {BarcodeScanner} from '@ionic-native/barcode-scanner';
+import {Toast} from '@ionic-native/toast';
 
 @Component({
   selector: 'page-home',
@@ -25,15 +23,15 @@ export class HomePage {
   amountItem = "No Sale";
   titleProductFilter = "All items";
   isSearch = false;
-dates = '2018-03-13 16:51:00';
-  constructor(
-    public navCtrl: NavController,
-    private server: RestProvider,
-    public actionSheetCtrl: ActionSheetController,
-    private barcodeScanner: BarcodeScanner,
-    private toast: Toast ) {
+
+  constructor(public navCtrl: NavController,
+              private server: RestProvider,
+              public actionSheetCtrl: ActionSheetController,
+              private barcodeScanner: BarcodeScanner,
+              private toast: Toast) {
 
   }
+
 
   loadProducts() {
     this.server.getProducts()
@@ -44,6 +42,20 @@ dates = '2018-03-13 16:51:00';
         }
       });
   }
+
+  doRefresh(refresher) {
+    this.server.getProducts()
+      .subscribe((products) => {
+        if (products.success === 1) {
+          this.products = products.data;
+          this.productsFilter = products.data;
+          setTimeout(() => {
+            refresher.complete();
+          }, 1000);
+        }
+      });
+  }
+
 
   loadCategories() {
     this.server.getCategories()
@@ -56,12 +68,13 @@ dates = '2018-03-13 16:51:00';
 
   searchItems(ev: any) {
     let val = ev.target.value;
-    console.log(ev);
     if (val !== undefined) {
       if (val && val.trim() != '') {
         this.productsFilter = this.products.filter((item) => {
           return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
         });
+      }else{
+        this.productsFilter = this.products;
       }
     } else {
       this.isSearch = false;
@@ -135,6 +148,7 @@ dates = '2018-03-13 16:51:00';
     return buttons;
   }
 
+
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       buttons: this.createButton()
@@ -143,6 +157,7 @@ dates = '2018-03-13 16:51:00';
   }
 
   goToOrderPage() {​
+
     this.navCtrl.push(OrderPage,
       {
         data: this.productsSelect,
@@ -150,7 +165,8 @@ dates = '2018-03-13 16:51:00';
       });
   }
 
-  //Handle Callback When click button back
+
+  // Handle Callback When click button back
   getData = (data) => {
     return new Promise((resolve, reject) => {
       console.log("getData");
@@ -186,31 +202,11 @@ dates = '2018-03-13 16:51:00';
     });
   }
 
-  ionViewCanEnter() {
-    console.log("ionViewCanEnter");
-  }
-
-  ionViewDidEnter() {
-    console.log("ionViewDidEnter");
-  }
-
-  ionViewDidLeave() {
-    console.log("ionViewDidLeave");
-  }
-
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad");
-  }
-
   ionViewWillEnter() {
     console.log("ionViewWillEnter");
 
     this.loadProducts()
     this.loadCategories()
-  }
-
-  ionViewWillUnload() {
-    console.log("ionViewWillUnload");
   }
 
   ionViewWillLeave() {

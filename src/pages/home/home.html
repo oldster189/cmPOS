@@ -2,20 +2,22 @@
   <ion-navbar>
 
     <button ion-button menuToggle>
-      <ion-icon color="dark" name="menu"></ion-icon>
+      <ion-icon color="darkBlue" name="menu"></ion-icon>
     </button>
-    <ion-title (click)="goToOrderPage()">
+    <ion-title (click)="goToOrderPage()" color="darkBlue">
      {{amountItem}}
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="goToOrderPage()">
-        <ion-icon name="{{(productsSelect.length == 0) ? 'ios-cart-outline' : 'ios-cart'}}" color="dark"></ion-icon>
+        <ion-icon color="darkBlue" name="{{(productsSelect.length == 0) ? 'ios-cart-outline' : 'ios-cart'}}" ></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+
+  <!--Search Bar-->
   <ion-grid no-padding>
     <ion-row *ngIf="!isSearch">
       <ion-col col-10>
@@ -27,7 +29,7 @@
       <ion-col col-2>
         <ion-item no-lines class="search">
           <button ion-button icon-only clear (click)="onSearchShow()">
-            <ion-icon name="search" color="dark"></ion-icon>
+            <ion-icon name="search" color="darkBlue"></ion-icon>
           </button>
         </ion-item>
       </ion-col>
@@ -36,7 +38,20 @@
       <ion-searchbar #mainSearchbar (ionInput)="searchItems($event)"  (ionCancel)="onSearchCancel()" [animated]="true" [showCancelButton]="true" style="height: 50px;"></ion-searchbar>
     </ion-row>
   </ion-grid>
+  <!--Search Bar-->
 
+  <!--Pull To Refresh-->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <!--Pull To Refresh-->
+
+  <!--Content ListView-->
   <ion-list inset style="padding-left: 0px; margin-left: 0px; margin-right: 0px;">
     <button ion-item detail-none text-wrap *ngFor="let item of productsFilter" (click)="addProduct(item)" style="padding-left: 8px; margin-left: 0px;">
       <ion-avatar item-left>
@@ -46,10 +61,13 @@
       <p>Price: {{item.price | currency:'฿':'code'}}, Qty: {{item.stock}}</p>
     </button>
   </ion-list>
+  <!--Content ListView-->
 
+  <!--Fab Scan QR-->
   <ion-fab right bottom style="margin: 8px;">
     <button ion-fab color="secondary" (click)="scan()">
       <ion-icon name="md-qr-scanner"></ion-icon>
     </button>
   </ion-fab>
+  <!--Fab Scan QR-->
 </ion-content>

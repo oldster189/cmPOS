@@ -13,7 +13,7 @@ import {Toast} from '@ionic-native/toast';
 })
 export class PaymentPage {
 
-  productsSelect: ProductData[];
+  productsSelect: ProductData[] = [];
   sumPrice: number;
   isShowTypeCash: boolean = true;
   isPayment = true;
@@ -27,11 +27,12 @@ export class PaymentPage {
               private toast: Toast,
               private sqliteManager: SqliteManagerProvider,
               private plt: Platform) {
-    this.plt.ready().then((readySource) => {
-      console.log('Platform ready from', readySource);
+
+    this.plt.ready().then(() => {
       this.sqliteManager.createTableOrder();
       this.sqliteManager.createTableOrderDetail();
     });
+
     this.productsSelect = this.navParams.get('data') || [];
   }
 
@@ -52,9 +53,7 @@ export class PaymentPage {
     this.cashAmount = event.target.value.replace(/[^\d\.]/g, '');
     this.cardAmount = event.target.value.replace(/[^\d\.]/g, '');
 
-    this.isPayment = event.target.value >= this.sumPrice ? true : false;
-
-
+    this.isPayment = event.target.value >= this.sumPrice;
   }
 
   payment() {
@@ -67,20 +66,20 @@ export class PaymentPage {
         location: 'default'
       }).then((db: SQLiteObject) => {
         let date = new Date();
-        let newDate = date.getFullYear() + '-' + ('00' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('00' + date.getDay().toString()).slice(-2) + ' ' + ('00' + date.getHours().toString()).slice(-2) + ':' + ('00' + date.getMinutes().toString()).slice(-2) + ':' + date.getSeconds();
+        let newDateTime = date.getFullYear() + '-' + ('00' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('00' + date.getDate().toString()).slice(-2) + ' ' + ('00' + date.getHours().toString()).slice(-2) + ':' + ('00' + date.getMinutes().toString()).slice(-2) + ':' + date.getSeconds();
+        let newDate = date.getFullYear() + '-' + ('00' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('00' + date.getDate().toString()).slice(-2);
 
-        db.executeSql('INSERT INTO Orders(discount, tax_percent, sub_total, paid,status, payment_type, timestamp) VALUES(?,?,?,?,?,?,?)', [0, 0.07, this.sumPrice, paid, "success", paymentType, newDate])
+        db.executeSql('INSERT INTO Orders(discount, tax_percent, sub_total, paid,status, payment_type, timestamp, date) VALUES(?,?,?,?,?,?,?,?)', [0, 0.07, this.sumPrice, paid, "success", paymentType, newDateTime, newDate])
           .then(res => {
-            this.toast.show(JSON.stringify(res), '2000', 'bottom').subscribe(toast => {
-
-            });
-
             this.productsSelect.forEach(element => {
               db.executeSql('INSERT INTO OrderDetail(category_id, image, name, stock, qty, price, category_name, order_id)  VALUES(?,?,?,?,?,?,?,?)', [element._id, element.image, element.name, element.stock, element.qty, element.price, element.category_name, res.insertId])
                 .then(res => {
                   console.log(res);
                   counter++;
                   if (counter == this.productsSelect.length) {
+                    this.toast.show("Payment Success!", '2000', 'bottom').subscribe(toast => {
+
+                    });
                     this.navCtrl.popToRoot();
                   }
                 })
@@ -103,11 +102,7 @@ export class PaymentPage {
   }
 
   clickSelectType(event: any) {
-    if (event.target.parentElement.getAttribute("id") === "cash") {
-      this.isShowTypeCash = true;
-    } else {
-      this.isShowTypeCash = false;
-    }
+    this.isShowTypeCash = event.target.parentElement.getAttribute("id") === "cash";
   }
 
 }
