@@ -66,10 +66,9 @@ export class PaymentPage {
         location: 'default'
       }).then((db: SQLiteObject) => {
         let date = new Date();
-        let newDateTime = date.getFullYear() + '-' + ('00' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('00' + date.getDate().toString()).slice(-2) + ' ' + ('00' + date.getHours().toString()).slice(-2) + ':' + ('00' + date.getMinutes().toString()).slice(-2) + ':' + date.getSeconds();
-        let newDate = date.getFullYear() + '-' + ('00' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('00' + date.getDate().toString()).slice(-2);
+        let newDateTime = date.getFullYear() + '-' + ('00' + (date.getMonth() + 1).toString()).slice(-2) + '-' + ('00' + (date.getDate() + 2).toString()).slice(-2) + ' ' + ('00' + date.getHours().toString()).slice(-2) + ':' + ('00' + date.getMinutes().toString()).slice(-2) + ':' + date.getSeconds();
 
-        db.executeSql('INSERT INTO Orders(discount, tax_percent, sub_total, paid,status, payment_type, timestamp, date) VALUES(?,?,?,?,?,?,?,?)', [0, 0.07, this.sumPrice, paid, "success", paymentType, newDateTime, newDate])
+        db.executeSql('INSERT INTO Orders(discount, tax_percent, sub_total, paid,status, payment_type, timestamp) VALUES(?,?,?,?,?,?,?,?)', [0, 0.07, this.sumPrice, paid, "success", paymentType, newDateTime])
           .then(res => {
             this.productsSelect.forEach(element => {
               db.executeSql('INSERT INTO OrderDetail(category_id, image, name, stock, qty, price, category_name, order_id)  VALUES(?,?,?,?,?,?,?,?)', [element._id, element.image, element.name, element.stock, element.qty, element.price, element.category_name, res.insertId])

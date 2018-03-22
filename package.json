@@ -99,8 +99,8 @@
       "mx.ferreyra.callnumber": {}
     },
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

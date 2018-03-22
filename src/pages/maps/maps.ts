@@ -24,7 +24,14 @@ export class MapsPage {
 
   locationIsSet = false;
 
-  location: Location = {
+  // location camera map
+  locationCM: Location = {
+    lat: 13.693109,
+    lng: 100.5178693
+  }
+
+  // location marker
+  marker: Location = {
     lat: 13.6954098,
     lng: 100.5127382
   }
@@ -45,10 +52,9 @@ export class MapsPage {
     this.geolocation.getCurrentPosition(this.options)
       .then((pos: Geoposition) => {
         this.currentPos = pos;
-        this.location.lat = pos.coords.latitude;
-        this.location.lng = pos.coords.longitude;
+        this.marker.lat = pos.coords.latitude;
+        this.marker.lng = pos.coords.longitude;
         this.locationIsSet = true;
-        console.log("posisiton: => " + pos.coords.latitude + ", " + pos.coords.longitude);
       }, (err: PositionError) => {
         console.log("error : " + err.message);
       });
